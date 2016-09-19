@@ -1,0 +1,18 @@
+{
+  "name": "football-tactic",
+  "version": "0.1.0",
+  "description": "small football game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Vu Dao",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "css-loader": "^0.25.0",
+    "ng-cache-loader": "0.0.21",
+    "style-loader": "^0.13.1"
+  }
+}
