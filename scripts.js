@@ -59,7 +59,7 @@
 	var app = angular.module('app', []);
 
 	app.controller('MainCtrl', function($scope) {
-	  $scope.moves = 10;
+	  $scope.moves = 8;
 	  $scope.positions = {
 	    topleft: {
 	      x: 50,
@@ -103,8 +103,8 @@
 	  return directive;
 
 	  function link(scope, elem, attrs, ctrl) {
-	    // TODO: A system to calculate moves (moves, movesUse, movesLeft)
-	    var target, transform, transformList, index, startX, startY, prevX, prevY, currX, currY, movementX, movementY, matrix, radius = 50, distance, limitX, limitY, line;
+	    // TODO: Restructure with services & classes
+	    var target, transform, transformList, index, startX, startY, prevX, prevY, currX, currY, movementX, movementY, matrix, radius = 50, limitX, limitY, line, movesUsed, prevDistance;
 	    var field = elem.find('svg')[0];
 
 	    scope.mousedown = mousedown;
@@ -112,6 +112,17 @@
 	    scope.positions = angular.copy(ctrl.positions);
 	    scope.moves = ctrl.moves;
 	    var keys = Object.keys(scope.positions);
+
+	    function getTotalDistance(notKey) {
+	      var total = 0;
+	      for (var key in scope.positions) {
+	        if (key !== notKey) {
+	          var distance = scope.positions[key]._distance || 0;
+	          total += distance;
+	        }
+	      }
+	      return total;
+	    }
 
 	    function mousedown(event) {
 	      if (event.target.nodeName == 'circle') {
@@ -134,13 +145,17 @@
 	    function drag(event) {
 	      currX = event.clientX;
 	      currY = event.clientY;
-	      distance = Math.sqrt(Math.pow(currX - startX, 2) + Math.pow(currY - startY, 2));
-	      if (scope.moves - Math.floor(distance/radius) > -1) {
-	        scope.moves = ctrl.moves - Math.floor(distance/radius) - 1;
+	      var distanceLeft = ctrl.moves*radius - getTotalDistance(target.id);
+
+	      scope.positions[target.id]._distance = Math.sqrt(Math.pow(currX - startX, 2) + Math.pow(currY - startY, 2));
+
+	      if (distanceLeft - scope.positions[target.id]._distance > 0) {
+	        scope.moves = ctrl.moves - Math.floor(getTotalDistance()/radius) - 1;
 	        scope.$apply();
 	      } else {
-	        // currX = (currX - startX)*radius/distance + startX;
-	        // currY = (currY - startY)*radius/distance + startY;
+	        var distance = scope.positions[target.id]._distance;
+	        currX = (currX - startX)*distanceLeft/distance + startX;
+	        currY = (currY - startY)*distanceLeft/distance + startY;
 	      }
 
 	      line.x2.baseVal.newValueSpecifiedUnits(SVGLength.SVG_LENGTHTYPE_NUMBER, currX);
@@ -153,7 +168,7 @@
 	      if (target) {
 	        ctrl.positions[target.id].x = Math.round(line.x2.animVal.value);
 	        ctrl.positions[target.id].y = Math.round(line.y2.animVal.value);
-	        ctrl.moves = scope.moves;
+	        // ctrl.moves = scope.moves;
 	      }
 	      field.onmousemove = null;
 	    }
