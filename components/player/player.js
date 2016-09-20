@@ -5,7 +5,7 @@ function player() {
   var directive = {
     restrict: 'EA',
     link: link,
-    templateUrl: 'player/player.html',
+    templateUrl: 'components/player/player.html',
     scope: {
       key: '=',
       value: '='

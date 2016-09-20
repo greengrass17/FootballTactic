@@ -3,7 +3,7 @@ angular.module('app')
 
 function ftField() {
   var directive = {
-    templateUrl: 'ftField/ftField.html',
+    templateUrl: 'components/ftField/ftField.html',
     scope: {
       positions: '=',
       moves: '=',
@@ -17,13 +17,13 @@ function ftField() {
 
   function link(scope, elem, attrs, ctrl) {
     // TODO: Restructure with services & classes
-    var target, transform, transformList, index, startX, startY, prevX, prevY, currX, currY, movementX, movementY, matrix, radius = 50, limitX, limitY, line, movesUsed, prevDistance;
+    var target, startX, startY, currX, currY, moves, radius = 50, limitX, limitY, line;
     var field = elem.find('svg')[0];
 
     scope.mousedown = mousedown;
     scope.mouseup = mouseup;
     scope.positions = angular.copy(ctrl.positions);
-    scope.moves = ctrl.moves;
+    scope.moves = moves = ctrl.moves;
     var keys = Object.keys(scope.positions);
 
     function getTotalDistance(notKey) {
@@ -42,14 +42,12 @@ function ftField() {
         field.onmousemove = drag;
         target = event.target;
         line = target.nextElementSibling;
-        transformList = target.transform.baseVal;
         startX = event.clientX;
         startY = event.clientY;
         console.log(event);
         // console.log(startX, startY);
-        prevX = currX = startX;
-        prevY = currY = startY;
-        // index = keys.indexOf(target.id);
+        currX = startX;
+        currY = startY;
       } else {
         target = null;
       }
@@ -58,12 +56,12 @@ function ftField() {
     function drag(event) {
       currX = event.clientX;
       currY = event.clientY;
-      var distanceLeft = ctrl.moves*radius - getTotalDistance(target.id);
+      var distanceLeft = moves*radius - getTotalDistance(target.id);
 
       scope.positions[target.id]._distance = Math.sqrt(Math.pow(currX - startX, 2) + Math.pow(currY - startY, 2));
 
       if (distanceLeft - scope.positions[target.id]._distance > 0) {
-        scope.moves = ctrl.moves - Math.floor(getTotalDistance()/radius) - 1;
+        scope.moves = moves - Math.floor(getTotalDistance()/radius) - 1;
         scope.$apply();
       } else {
         var distance = scope.positions[target.id]._distance;
@@ -73,15 +71,13 @@ function ftField() {
 
       line.x2.baseVal.newValueSpecifiedUnits(SVGLength.SVG_LENGTHTYPE_NUMBER, currX);
       line.y2.baseVal.newValueSpecifiedUnits(SVGLength.SVG_LENGTHTYPE_NUMBER, currY);
-      prevX = currX;
-      prevY = currY;
     }
 
     function mouseup(event) {
       if (target) {
         ctrl.positions[target.id].x = Math.round(line.x2.animVal.value);
         ctrl.positions[target.id].y = Math.round(line.y2.animVal.value);
-        // ctrl.moves = scope.moves;
+        ctrl.moves = scope.moves;
       }
       field.onmousemove = null;
     }
