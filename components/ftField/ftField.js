@@ -7,6 +7,7 @@ function ftField() {
     scope: {
       positions: '=',
       moves: '=',
+      ball: '='
     },
     link: link,
     controller: Controller,
@@ -23,6 +24,7 @@ function ftField() {
     scope.mousedown = mousedown;
     scope.mouseup = mouseup;
     scope.positions = angular.copy(ctrl.positions);
+    scope.ball = angular.copy(ctrl.ball);
     scope.moves = moves = ctrl.moves;
     var keys = Object.keys(scope.positions);
 
@@ -38,13 +40,13 @@ function ftField() {
     }
 
     function mousedown(event) {
-      if (event.target.nodeName == 'circle') {
+      target = event.target;
+      console.log(target.getAttribute('movable'));
+      if (target.nodeName == 'circle' && target.getAttribute('movable')) {
         field.onmousemove = drag;
-        target = event.target;
         line = target.nextElementSibling;
         startX = event.clientX;
         startY = event.clientY;
-        console.log(event);
         // console.log(startX, startY);
         currX = startX;
         currY = startY;

@@ -10,7 +10,7 @@
   </head>
 
   <body ng-controller="MainCtrl">
-    <ft-field positions="positions" moves="moves"></ft-field>
+    <ft-field positions="positions" moves="moves" ball="ball"></ft-field>
     <div class="point--cover">
       <p ng-repeat="(key, value) in positions" ng-class="key" class="point">
         ({{value.x}}, {{value.y}})

@@ -1,6 +1,10 @@
 <svg width="600" height="400" ng-mousedown="mousedown($event)" ng-mouseup="mouseup($event)">
-  <g player ng-repeat="(key, value) in positions" key="key" value="value">
+  <g ft-player ng-repeat="(key, value) in positions" key="key" value="value">
   </g>
+  <g ft-ball x="ball.x" y="ball.y" player="ball.player"></g>
+  <!-- <g>
+    <circle id="ball" ng-attr-cx="{{ball.x}}" ng-attr-cy="{{ball.y}}" r="20" stroke="black" stroke-width="1" fill="transparent"></circle>
+  </g> -->
 
 </svg>
 <h3>{{moves}}</h3>

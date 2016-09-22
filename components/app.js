@@ -2,6 +2,15 @@ var app = angular.module('app', []);
 
 app.controller('MainCtrl', function($scope) {
   $scope.moves = 10;
+  $scope.ball = {
+    x: 80,
+    y: 150,
+    player: {
+      key: 'topleft',
+      x: 50,
+      y:50
+    }
+  }
   $scope.positions = {
     topleft: {
       x: 50,

@@ -1,7 +1,7 @@
 angular.module('app')
-.directive('player', player);
+.directive('ftPlayer', ftPlayer);
 
-function player() {
+function ftPlayer() {
   var directive = {
     restrict: 'EA',
     link: link,
