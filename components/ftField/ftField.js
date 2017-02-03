@@ -3,7 +3,7 @@ angular.module('app')
 
 function ftField() {
   var directive = {
-    templateUrl: 'components/ftField/ftField.html',
+    templateUrl: '/components/ftField/ftField.html',
     scope: {
       positions: '=',
       moves: '=',

@@ -9,7 +9,7 @@
   function ftBall() {
     var directive = {
       restrict: 'EA',
-      templateUrl: 'components/ball/ball.html',
+      templateUrl: '/components/ball/ball.html',
       scope: {
         x: '=',
         y: '=',

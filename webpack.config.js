@@ -1,13 +1,23 @@
+const path = require('path');
+
 module.exports = {
-  entry: './entry.js',
+  devtool: "inline-source-map",
+  entry: './index.js',
   output: {
-    path: __dirname,
-    filename: 'scripts.js'
+    path: __dirname + '/dist',
+    filename: 'bundle.js',
+    // path: path.resolve(__dirname, 'dist'),
   },
   module: {
+    // preLoaders: [
+    //   {
+    //     test: /\.js$/,
+    //     loader: 'baggage?[file].html&[file].css'
+    //   }
+    // ],
     loaders: [
       { test: /\.css$/, loader: 'style!css' },
-      { test: /\.html$/, loader: 'ng-cache' }
+      { test: /\.html$/, loader: 'ngtemplate?relativeTo=' + __dirname + '!html' }
     ]
   }
 };
