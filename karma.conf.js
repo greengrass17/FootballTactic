@@ -16,10 +16,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'node_modules/angular/angular.js',
+      'node_modules/angular-mocks/angular-mocks.js',
+      'components/**/*.js',
+      'components/**/*.html',
       'test/**/*Spec.js',
-      'test/**/*Spec.js'
     ],
 
+    ngHtml2JsPreprocessor: {
+      moduleName: 'appTemplates'
+    },
 
     // list of files to exclude
     exclude: [
@@ -29,6 +35,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'components/**/*.html': ['ng-html2js'],
       'test/**/*Spec.js': ['webpack']
     },
 

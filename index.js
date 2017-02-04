@@ -1,3 +1,4 @@
+require('angular');
 require('./components/main.css');
 require('./components/app');
 require('./components/ftField/ftField');

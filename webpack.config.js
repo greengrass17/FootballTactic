@@ -1,12 +1,12 @@
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
   devtool: "inline-source-map",
   entry: './index.js',
   output: {
-    path: __dirname + '/dist',
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    // path: path.resolve(__dirname, 'dist'),
   },
   module: {
     // preLoaders: [
@@ -16,8 +16,8 @@ module.exports = {
     //   }
     // ],
     loaders: [
-      { test: /\.css$/, loader: 'style!css' },
-      { test: /\.html$/, loader: 'ngtemplate?relativeTo=' + __dirname + '!html' }
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      { test: /\.html$/, loader: 'ngtemplate-loader?relativeTo=' + __dirname + '!html-loader' }
     ]
   }
 };
